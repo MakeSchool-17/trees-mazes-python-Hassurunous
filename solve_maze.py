@@ -39,11 +39,13 @@ def solve_bfs(m):
     while curr_cell != goal and len(queue) > 0:
         next_queued_item = queue.pop(0)
         curr_cell, in_direction = next_queued_item[0], next_queued_item[1]
+        # print("curr_cell, ", curr_cell, "in_direction, ", in_direction)
         m.bfs_visit_cell(curr_cell, in_direction)
         visited_cells += 1
         m.refresh_maze_view
 
         for cell in m.cell_neighbors(curr_cell):
+            # print(cell)
             queue.append(cell)
 
     for cell in queue:

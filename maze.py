@@ -111,19 +111,35 @@ class Maze:
         self.draw_bfs_visited_cell(cell)
 
     # Reconstruct path to start using backtrack bits
+    # def reconstruct_solution(self, cell):
+    #     self.draw_visited_cell(cell)
+    #     # Logic for reconstructing solution path in BFS
+    #     i = 0
+    #     prev_cell_bits = (self.maze_array[cell] & BACKTRACK_BITS) >> 12
+    #     try:
+    #         i = WALLS.index(prev_cell_bits)
+    #         # print("i = ", i)
+    #     except ValueError:
+    #         print('ERROR - BACKTRACK BITS INVALID!')
+    #     x, y = self.x_y(cell)
+    #     prev_x, prev_y = x + COMPASS[i][0], y + COMPASS[i][1]
+    #     prev_cell = self.cell_index(prev_x, prev_y)
+    #     self.maze_array[prev_cell] |= (OPPOSITE_WALLS[i] << 8)
+    #     self.refresh_maze_view()
+    #     if prev_cell != 0:
+    #         self.reconstruct_solution(prev_cell)
     def reconstruct_solution(self, cell):
+        i = 0
         self.draw_visited_cell(cell)
-        # Logic for reconstructing solution path in BFS
-        i = int()
         prev_cell_bits = (self.maze_array[cell] & BACKTRACK_BITS) >> 12
         try:
             i = WALLS.index(prev_cell_bits)
-            # print("i = ", i)
         except ValueError:
             print('ERROR - BACKTRACK BITS INVALID!')
         x, y = self.x_y(cell)
-        new_x, new_y = x + COMPASS[i][0], y + COMPASS[i][1]
-        prev_cell = self.cell_index(new_x, new_y)
+        prev_x = x + COMPASS[i][0]
+        prev_y = y + COMPASS[i][1]
+        prev_cell = self.cell_index(prev_x, prev_y)
         self.maze_array[prev_cell] |= (OPPOSITE_WALLS[i] << 8)
         self.refresh_maze_view()
         if prev_cell != 0:
